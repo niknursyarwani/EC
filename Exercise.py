@@ -1,4 +1,11 @@
-import streamlit
+import streamlit as st
+st.set_page_config(
+  page_title="Genetic Algorithm"
+)
+
+st.header("Genetic Algorithm", divider="gray")
+
+import random
 
 # Fitness function to calculate how close the candidate string is to the target
 def calculate_fitness(candidate, target):
