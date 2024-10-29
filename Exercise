@@ -1,0 +1,46 @@
+import random
+
+# Fitness function: how close is the guess to the target?
+def fitness(target, guess):
+    return sum(1 for a, b in zip(target, guess) if a == b)
+
+# Mutation function: randomly change characters based on mutation rate
+def mutate(parent, mutation_rate):
+    child = []
+    for char in parent:
+        if random.random() < mutation_rate:
+            child.append(chr(random.randint(32, 126)))  # Random ASCII character
+        else:
+            child.append(char)
+    return ''.join(child)
+
+# Main function to run the Genetic Algorithm
+def genetic_algorithm(target, mutation_rate):
+    # Start with a random guess of the same length as the target
+    parent = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz') for _ in range(len(target)))
+    generation = 1
+    parent_fitness = fitness(target, parent)
+
+    print(f"Initial String: {parent} Generation: {generation} Fitness: {parent_fitness}")
+
+    # Loop until the target is found
+    while parent != target:
+        child = mutate(parent, mutation_rate)
+        child_fitness = fitness(target, child)
+
+        # If the child is better or equal, replace parent
+        if child_fitness >= parent_fitness:
+            parent, parent_fitness = child, child_fitness
+            print(f"String: {child} Generation: {generation} Fitness: {child_fitness}")
+
+        generation += 1
+
+    print(f"Target found\nString: {parent} Generation: {generation} Fitness: 0")
+
+# User inputs
+if __name__ == "__main__":
+    target = input("Enter your name: ").lower()  # E.g., "ali"
+    mutation_rate = float(input("Enter your mutation rate (0 to 1): "))
+
+    # Run the Genetic Algorithm
+    genetic_algorithm(target, mutation_rate)
