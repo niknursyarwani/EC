@@ -32,7 +32,7 @@ def genetic_algorithm(target, mutation_rate):
 
     # Continue until the target string is found
     while fitness < len(target):
-        print(f"String: {current} Generation: {generation} Fitness: {fitness}")
+        st.write(f"String: {current} Generation: {generation} Fitness: {fitness}")
 
         # Create a mutated child
         child = mutate(current, mutation_rate)
@@ -45,8 +45,8 @@ def genetic_algorithm(target, mutation_rate):
 
         generation += 1
 
-    print("Target found")
-    print(f"String: {current} Generation: {generation} Fitness: {fitness}")
+    st.write("Target found")
+    st.write(f"String: {current} Generation: {generation} Fitness: {fitness}")
 
 # Get user input
 name = input("Enter your name: ").lower()
