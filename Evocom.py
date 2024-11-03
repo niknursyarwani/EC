@@ -1,18 +1,19 @@
-import streamlit as st
-st.set_page_config(
-  page_title="Genetic Algorithm"
-)
-st.header("Genetic Algorithm", divider="gray")
+import streamlit as st  
+st.set_page_config(     
+page_title="Genetic Algorithm" )  
+st.header("Genetic Algorithm", divider="gray") 
 
 import random
 
 #POP_SIZE: Number of Chromosomes in our list.
 POP_SIZE = 500
+
+#TARGET: Our goal
+TARGET = st.text_input("Enter your name", "Syarwani")
+
 #MUT_RATE: Rate at which our string will be changed.
-MUT_RATE = 0.2
-#TARGET: Our goal.
-#TARGET = 'Syarwani'
-TARGET = st.text_input("Enter your name","Syarwani")
+# Input for mutation rate
+MUT_RATE = st.number_input("Enter your mutation rate", min_value=0.0, max_value=1.0, step=0.01, format="%.2f")
 
 #GENES: Options from which our population would be created.
 GENES = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -42,7 +43,7 @@ def fitness_cal(TARGET, chromo_from_pop):
   return [chromo_from_pop, difference]
 
 #selection
-#returns top 50% population sorted according to fitness
+#returns the top 50% population sorted according to fitness
 
 def selection(population, TARGET):
   sorted_chromo_pop = sorted(population, key= lambda x: x[1])
@@ -75,6 +76,11 @@ def mutate(offspring, MUT_RATE):
               arr[i] = random.choice(GENES)
       mutated_offspring.append(arr)
   return mutated_offspring
+
+# Button to calculate
+if st.button("Calculate"):
+    # Placeholder calculation based on mutation rate
+    result = f"Hello, {TARGET}! Your mutation rate is set to {MUT_RATE}."
 
 #replacement
 
@@ -120,6 +126,7 @@ def main(POP_SIZE, MUT_RATE, TARGET, GENES):
       # we sort here first to compare the least fit population with the most fit new_gen
 
       population = replace(new_gen, population)
+
 
       if (population[0][1] == 0):
         st.write('Target found')
