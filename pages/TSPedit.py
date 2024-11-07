@@ -12,16 +12,16 @@ st.title("City Coordinates Input")
 st.write("Enter up to 10 cities with their coordinates (x,y) in range 1-10.")
 
 default_cities = [
-    {"name": "Kelantan", "x": 0, "y": 1},
+    {"name": "Kelantan", "x": 1, "y": 3},
     {"name": "Kedah", "x": 3, "y": 2},
     {"name": "Selangor", "x": 6, "y": 1},
     {"name": "Johor", "x": 7, "y": 4.5},
-    {"name": "Perlis", "x": 15, "y": -1},
+    {"name": "Perlis", "x": 13, "y": -1},
     {"name": "Perak", "x": 10, "y": 2.5},
-    {"name": "Terengganu", "x": 16, "y": 11},
-    {"name": "Pulau Pinang", "x": 5, "y": 6},
+    {"name": "Terengganu", "x": 15, "y": 11},
+    {"name": "Pulau Pinang", "x": 2, "y": 6},
     {"name": "N.Sembilan", "x": 8, "y": 9},
-    {"name": "Pahang", "x": 1.5, "y": 12},
+    {"name": "Pahang", "x": 5, "y": 12},
 ]
 
 # Variables to store city names and coordinates
