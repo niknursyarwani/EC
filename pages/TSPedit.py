@@ -8,17 +8,58 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 
-x = [0.8,3.7,6.3,7.1,15.2,10.5,16.3,5.8,8.6,1.5]
-y = [1,2,1,4.5,-1,2.5,11,6,9,12]
-cities_names = ["Kelantan", "Kedah", "Selangor", "Johor", "Perlis", "Perak", "Terengganu", "Pulau Pinang", "N.Sembilan", "Pahang"]
-city_coords = dict(zip(cities_names, zip(x, y)))
+st.title("City Coordinates Input")
+st.write("Enter up to 10 cities with their coordinates (x,y) in range 1-10.")
+
+default_cities = [
+    {"name": "Kelantan", "x": 0, "y": 1},
+    {"name": "Kedah", "x": 3, "y": 2},
+    {"name": "Selangor", "x": 6, "y": 1},
+    {"name": "Johor", "x": 7, "y": 4.5},
+    {"name": "Perlis", "x": 15, "y": -1},
+    {"name": "Perak", "x": 10, "y": 2.5},
+    {"name": "Terengganu", "x": 16, "y": 11},
+    {"name": "Pulau Pinang", "x": 5, "y": 6},
+    {"name": "N.Sembilan", "x": 8, "y": 9},
+    {"name": "Pahang", "x": 1.5, "y": 12},
+]
+
+# Variables to store city names and coordinates
+cities_names = []
+x = []
+y = []
+
+# Collect input from the user for each city
+for i, default_city in enumerate(default_cities):
+    # Create 3 columns for each row
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        city_name = st.text_input(f"City {i + 1}", value=default_city["name"])
+
+    with col2:
+        city_x = st.number_input(f"x-coordinate (City {i + 1})", value=default_city["x"])
+
+    with col3:
+        city_y = st.number_input(f"y-coordinate (City {i + 1})", value=default_city["y"])
+
+    cities_names.append(city_name)
+    x.append(city_x)
+    y.append(city_y)
+
+st.button("Submit")
+
+# Genetic Algorithm Parameters
 n_population = 250
 crossover_per = 0.8
 mutation_per = 0.2
 n_generations = 200
 
-# Pastel Pallete
+# Pastel color palette
 colors = sns.color_palette("pastel", len(cities_names))
+
+# Create dictionary of city coordinates
+city_coords = dict(zip(cities_names, zip(x, y)))
 
 # City Icons
 city_icons = {
@@ -52,7 +93,6 @@ for i, (city, (city_x, city_y)) in enumerate(city_coords.items()):
             ax.plot([city_x, other_x], [city_y, other_y], color='gray', linestyle='-', linewidth=1, alpha=0.1)
 
 fig.set_size_inches(16, 12)
-plt.show()
 st.pyplot(fig)
 
 #population
