@@ -1,42 +1,53 @@
 import csv
+import streamlit as st
+import pandas as pd
+
+st.title("Assignment")
+st.header("TV Scheduling - Genetic Algorithm")
+st.write("### Parameters Input:")
+
+CO_R = st.number_input( "Enter Crossover Rate (Range from 0.0 to 0.95) ")
+MUT_R = st.number_input( "Enter Mutation Rate (Range from 0.01 to 0.05) ")
+
+#Display calculate button
+st.button("Calculate") 
+
+# Display the resulting parameters used
+st.write("### Parameters Used:")
+st.write(f"Crossover Rate (CO_R): {CO_R}")
+st.write(f"Mutation Rate (MUT_R): {MUT_R}")
 
 # Function to read the CSV file and convert it to the desired format
 def read_csv_to_dict(file_path):
     program_ratings = {}
-    
+
     with open(file_path, mode='r', newline='') as file:
         reader = csv.reader(file)
         # Skip the header
         header = next(reader)
-        
+
         for row in reader:
             program = row[0]
             ratings = [float(x) for x in row[1:]]  # Convert the ratings to floats
             program_ratings[program] = ratings
-    
+
     return program_ratings
 
 # Path to the CSV file
-file_path = '/content/program_ratings (1).csv'
+file_path = 'pages/program_ratings.csv'
 
 # Get the data in the required format
 program_ratings_dict = read_csv_to_dict(file_path)
 
-# Print the result (you can also return or process it further)
-for program, ratings in program_ratings_dict.items():
-    print(f"'{program}': {ratings},")
-
-
 import random
 
 ##################################### DEFINING PARAMETERS AND DATASET ################################################################
+
 # Sample rating programs dataset for each time slot.
 ratings = program_ratings_dict
 
 GEN = 100
 POP = 50
-CO_R = 0.8
-MUT_R = 0.2
 EL_S = 2
 
 all_programs = list(ratings.keys()) # all programs
@@ -81,7 +92,6 @@ all_possible_schedules = initialize_pop(all_programs, all_time_slots)
 # callin the schedule func.
 best_schedule = finding_best_schedule(all_possible_schedules)
 
-
 ############################################# GENETIC ALGORITHM #############################################################################
 
 # Crossover
@@ -103,9 +113,6 @@ def evaluate_fitness(schedule):
     return fitness_function(schedule)
 
 # genetic algorithms with parameters
-
-
-
 def genetic_algorithm(initial_schedule, generations=GEN, population_size=POP, crossover_rate=CO_R, mutation_rate=MUT_R, elitism_size=EL_S):
 
     population = [initial_schedule]
@@ -150,8 +157,13 @@ genetic_schedule = genetic_algorithm(initial_best_schedule, generations=GEN, pop
 
 final_schedule = initial_best_schedule + genetic_schedule[:rem_t_slots]
 
-print("\nFinal Optimal Schedule:")
-for time_slot, program in enumerate(final_schedule):
-    print(f"Time Slot {all_time_slots[time_slot]:02d}:00 - Program {program}")
+schedule_program = {
+  "Time Slot": [f"{time_slot:02d}:00" for time_slot in all_time_slots],
+  "Program": final_schedule
+}
+schedule_df = pd.DataFrame(schedule_program)
 
-print("Total Ratings:", fitness_function(final_schedule))
+st.write("\n### Final Optimal Schedule:")
+st.table(schedule_df)
+
+st.write("Total Ratings:", f"{fitness_function(final_schedule):.2f}")
