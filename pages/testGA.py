@@ -1,4 +1,4 @@
-import streamlit as st
+import streamlet as st
 import pandas as pd
 
 # Set default values
