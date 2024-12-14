@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 
 st.title("Assignment")
-st.header("TV Scheduling - Genetic Algorithm")
+st.header("TV Scheduling - Program Rating")
 st.write("### Parameters Input:")
 
 CO_R = st.number_input( "Enter Crossover Rate (Range from 0.0 to 0.95) ")
@@ -34,7 +34,7 @@ def read_csv_to_dict(file_path):
     return program_ratings
 
 # Path to the CSV file
-file_path = 'pages/modified_program_ratings.csv'
+file_path = 'pages/program_ratings.csv'
 
 # Get the data in the required format
 program_ratings_dict = read_csv_to_dict(file_path)
